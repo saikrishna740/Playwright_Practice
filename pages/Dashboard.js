@@ -1,4 +1,4 @@
-class Dashboard {
+export class Dashboard {
     constructor(page) {
         this.product = page.locator(".card-body");
         this.productText = page.locator(".card-body b");
@@ -6,13 +6,11 @@ class Dashboard {
     }
 
     async Searchproduct(productName) {
-        const title = await this.productText.allTextContents();
-        console.log(title);
+        const titles = await this.productText.allTextContents();
 
-        const counts = await this.product.count();
-        for (let i = 0; i < counts; ++i) {
-            if (await this.product.nth(i).locator("b").textContent() === productName) {
-                await this.product.nth(i).locator("text=  Add To Cart").click();
+        for (let i = 0; i < titles.length; i++) {
+            if (titles[i].trim() === productName) {
+                await this.product.nth(i).locator("text=Add To Cart").click();
                 break;
             }
         }
@@ -22,6 +20,3 @@ class Dashboard {
         await this.cart.click();
     }
 }
-
-// CommonJS export
-module.exports = { Dashboard };
